@@ -2,11 +2,13 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_bloc/blocs/videos_bloc.dart';
 import 'package:youtube_bloc/delegates/data_search.dart';
+import 'package:youtube_bloc/tiles/video_tile.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Container(
           height: 50,
@@ -36,11 +38,17 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: StreamBuilder(
-        stream: BlocProvider.getBloc<VideosBloc>().outVideos/* BlocProvider.getBloc<VideosBloc>().outVideos */,
-        builder: (context,snapshot){
-          if(snapshot.hasData){
-            return ListView.builder(itemBuilder: null);
-          }else{
+        stream: BlocProvider.getBloc<VideosBloc>()
+            .outVideos /* BlocProvider.getBloc<VideosBloc>().outVideos */,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+               return VideosTile(snapshot.data[index]);
+              },
+            );
+          } else {
             return Container();
           }
         },

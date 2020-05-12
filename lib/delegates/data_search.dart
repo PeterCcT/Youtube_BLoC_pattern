@@ -43,7 +43,7 @@ class DataSearch extends SearchDelegate<String> {
       return Container();
     else {
       return FutureBuilder<List>(
-        future: seuggestions(query),
+        future: suggestions(query),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -68,7 +68,7 @@ class DataSearch extends SearchDelegate<String> {
     }
   }
 
-  Future<List> seuggestions(String search) async {
+  Future<List> suggestions(String search) async {
     http.Response response = await http.get(
         "http://suggestqueries.google.com/complete/search?hl=en&ds=yt&client=youtube&hjson=t&cp=1&q=$search&format=5&alt=json");
     if (response.statusCode == 200) {

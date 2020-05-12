@@ -5,9 +5,9 @@ import 'package:youtube_bloc/delegates/data_search.dart';
 import 'package:youtube_bloc/tiles/video_tile.dart';
 
 class HomeScreen extends StatelessWidget {
-  final VideosBloc bloc = BlocProvider.getBloc<VideosBloc>();
   @override
   Widget build(BuildContext context) {
+    final VideosBloc bloc = BlocProvider.getBloc<VideosBloc>();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -39,8 +39,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: StreamBuilder(
-        stream: BlocProvider.getBloc<VideosBloc>()
-            .outVideos /* BlocProvider.getBloc<VideosBloc>().outVideos */,
+        stream: BlocProvider.getBloc<VideosBloc>().outVideos,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -58,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation(Colors.indigo),
                     ),
                   );
-                }else{
+                } else {
                   return Container();
                 }
               },

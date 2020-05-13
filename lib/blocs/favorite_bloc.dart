@@ -7,7 +7,7 @@ import 'package:youtube_bloc/modules/video.dart';
 
 class FavoriteBloc implements BlocBase {
   Map<String, Video> _favoritos = {};
-  final _favController = BehaviorSubject<Map<String, Video>>();
+  final _favController = BehaviorSubject<Map<String, Video>>(seedValue: {});
   Stream<Map<String, Video>> get outfav => _favController.stream;
 
   FavoriteBloc() {

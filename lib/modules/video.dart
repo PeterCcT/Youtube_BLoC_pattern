@@ -15,10 +15,10 @@ class Video {
           channel: json['snippet']['channelTitle']);
     else
       return Video(
-          id: json['id']['videoId'],
-          title: json['snippet']['title'],
-          thumb: json['snippet']['thumbnails']['high']['url'],
-          channel: json['snippet']['channelTitle']);
+          id: json['videoId'],
+          title: json['title'],
+          thumb: json['thumb'],
+          channel: json['channel']);
   }
 
   Map<String, dynamic> toJson() {

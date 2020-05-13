@@ -1,4 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_bloc/blocs/favorite_bloc.dart';
 import 'package:youtube_bloc/modules/video.dart';
 
 class VideosTile extends StatelessWidget {
@@ -6,6 +8,7 @@ class VideosTile extends StatelessWidget {
   VideosTile(this.video);
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<FavoriteBloc>(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4),
       child: Column(
@@ -44,7 +47,9 @@ class VideosTile extends StatelessWidget {
                           Text(
                             video.channel,
                             style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 13,color: Colors.white),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -52,12 +57,25 @@ class VideosTile extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
-                icon: Icon(Icons.star_border),
-                color: Colors.white,
-                iconSize: 30,
-                onPressed: () {},
-              )
+              StreamBuilder<Map<String, Video>>(
+                stream: bloc.outfav,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return IconButton(
+                      icon: Icon(snapshot.data.containsKey(video.id)
+                          ? Icons.star
+                          : Icons.star_border),
+                      color: Colors.white,
+                      iconSize: 30,
+                      onPressed: () {
+                        bloc.ativarFavs(video);
+                      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             ],
           ),
         ],

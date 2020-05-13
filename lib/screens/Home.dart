@@ -1,13 +1,15 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_bloc/blocs/favorite_bloc.dart';
 import 'package:youtube_bloc/blocs/videos_bloc.dart';
 import 'package:youtube_bloc/delegates/data_search.dart';
+import 'package:youtube_bloc/modules/video.dart';
 import 'package:youtube_bloc/tiles/video_tile.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final VideosBloc bloc = BlocProvider.getBloc<VideosBloc>();
+    final VideosBloc bloc = BlocProvider.of<VideosBloc>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -20,7 +22,17 @@ class HomeScreen extends StatelessWidget {
         actions: <Widget>[
           Align(
             alignment: Alignment.center,
-            child: Text('0'),
+            child: StreamBuilder<Map<String, Video>>(
+              initialData: {},
+              stream: BlocProvider.of<FavoriteBloc>(context).outfav,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text('${snapshot.data.length}');
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ),
           IconButton(
             icon: Icon(Icons.star),
@@ -39,7 +51,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: StreamBuilder(
-        stream: BlocProvider.getBloc<VideosBloc>().outVideos,
+        stream: bloc.outVideos,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(

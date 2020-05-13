@@ -23,7 +23,7 @@ class VideosBloc implements BlocBase {
 
   void _search(String search) async {
     if (search != null) {
-       _videoController.sink.add([]);
+      _videoController.sink.add([]);
       videos = await api.search(search);
     } else {
       videos += await api.nextPage();
@@ -32,20 +32,8 @@ class VideosBloc implements BlocBase {
   }
 
   @override
-  void addListener(listener) {}
-
-  @override
   void dispose() {
     _videoController.close();
     _searchController.close();
   }
-
-  @override
-  bool get hasListeners => throw UnimplementedError();
-
-  @override
-  void notifyListeners() {}
-
-  @override
-  void removeListener(listener) {}
 }
